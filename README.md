@@ -9,11 +9,6 @@ A complete machine learning project that predicts customer churn using advanced 
 
 ![Churn Prediction Demo](https://github.com/sophiashv/project-X/raw/main/docs/images/churn_prediction_demo.png)
 
-## Quick Demo
-
-Try the live demo: [Customer Churn Predictor](https://example.com/churn-predictor)
-
-*Note: This project is part of a machine learning portfolio showcasing end-to-end ML development skills.*
 
 ## Project Overview
 
