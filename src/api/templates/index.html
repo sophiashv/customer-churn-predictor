@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Customer Churn Prediction</h1>
+            <p>Predict whether a customer is likely to leave your service</p>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Customer Information</h2>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <form id="predictionForm">
+                <!-- Personal Information -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="customerID">Customer ID</label>
+                            <input type="text" id="customerID" name="customerID" placeholder="Enter customer ID">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="SeniorCitizen">Senior Citizen</label>
+                            <select id="SeniorCitizen" name="SeniorCitizen">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="Partner">Partner</label>
+                            <select id="Partner" name="Partner">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="Dependents">Dependents</label>
+                            <select id="Dependents" name="Dependents">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="tenure">Tenure (months)</label>
+                            <input type="number" id="tenure" name="tenure" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Information -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="PhoneService">Phone Service</label>
+                            <select id="PhoneService" name="PhoneService">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="MultipleLines">Multiple Lines</label>
+                            <select id="MultipleLines" name="MultipleLines">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No phone service">No phone service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="InternetService">Internet Service</label>
+                            <select id="InternetService" name="InternetService">
+                                <option value="DSL">DSL</option>
+                                <option value="Fiber optic">Fiber optic</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="OnlineSecurity">Online Security</label>
+                            <select id="OnlineSecurity" name="OnlineSecurity">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="OnlineBackup">Online Backup</label>
+                            <select id="OnlineBackup" name="OnlineBackup">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="DeviceProtection">Device Protection</label>
+                            <select id="DeviceProtection" name="DeviceProtection">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="TechSupport">Tech Support</label>
+                            <select id="TechSupport" name="TechSupport">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="StreamingTV">Streaming TV</label>
+                            <select id="StreamingTV" name="StreamingTV">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="StreamingMovies">Streaming Movies</label>
+                            <select id="StreamingMovies" name="StreamingMovies">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No internet service">No internet service</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contract Information -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="Contract">Contract</label>
+                            <select id="Contract" name="Contract">
+                                <option value="Month-to-month">Month-to-month</option>
+                                <option value="One year">One year</option>
+                                <option value="Two year">Two year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="PaperlessBilling">Paperless Billing</label>
+                            <select id="PaperlessBilling" name="PaperlessBilling">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="PaymentMethod">Payment Method</label>
+                            <select id="PaymentMethod" name="PaymentMethod">
+                                <option value="Electronic check">Electronic check</option>
+                                <option value="Mailed check">Mailed check</option>
+                                <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                                <option value="Credit card (automatic)">Credit card (automatic)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Information -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="MonthlyCharges">Monthly Charges ($)</label>
+                            <input type="number" id="MonthlyCharges" name="MonthlyCharges" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="TotalCharges">Total Charges ($)</label>
+                            <input type="number" id="TotalCharges" name="TotalCharges" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn">Predict Churn</button>
+                    <button type="button" class="btn btn-secondary" id="resetBtn">Reset Form</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Processing prediction...</p>
+        </div>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-card">
+                <div class="result-header">
+                    <h2>Prediction Result</h2>
+                </div>
+                
+                <div class="result-value" id="churnResult"></div>
+                <div class="result-label">Customer Churn Prediction</div>
+                
+                <div class="probability-container">
+                    <h3>Churn Probability</h3>
+                    <div class="probability-bar">
+                        <div class="probability-fill" id="probabilityFill"></div>
+                    </div>
+                    <p id="probabilityValue"></p>
+                </div>
+                
+                <div class="factors-container">
+                    <h3>Key Risk Factors</h3>
+                    <canvas id="factorsChart"></canvas>
+                </div>
+                
+                <div class="form-group" style="margin-top: 2rem;">
+                    <button type="button" class="btn" id="newPredictionBtn">New Prediction</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Customer Churn Prediction Model &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const predictionForm = document.getElementById('predictionForm');
+            const resetBtn = document.getElementById('resetBtn');
+            const newPredictionBtn = document.getElementById('newPredictionBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const resultContainer = document.getElementById('resultContainer');
+            const churnResult = document.getElementById('churnResult');
+            const probabilityFill = document.getElementById('probabilityFill');
+            const probabilityValue = document.getElementById('probabilityValue');
+            const errorMessage = document.getElementById('errorMessage');
+            let factorsChart = null;
+            
+            // Handle form submission
+            predictionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Collect form data
+                const formData = new FormData(predictionForm);
+                const jsonData = {};
+                
+                formData.forEach((value, key) => {
+                    // Convert numeric values
+                    if (key === 'SeniorCitizen' || key === 'tenure') {
+                        jsonData[key] = parseInt(value);
+                    } else if (key === 'MonthlyCharges' || key === 'TotalCharges') {
+                        jsonData[key] = parseFloat(value);
+                    } else {
+                        jsonData[key] = value;
+                    }
+                });
+                
+                // Send prediction request
+                fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (data.status === 'success') {
+                        // Display prediction result
+                        const prediction = data.prediction;
+                        const probability = prediction.churn_probability;
+                        
+                        // Set churn result text and color
+                        churnResult.textContent = prediction.churn_label;
+                        churnResult.className = prediction.churn_prediction === 1 ? 'result-value churn-yes' : 'result-value churn-no';
+                        
+                        // Set probability bar
+                        const percentage = Math.round(probability * 100);
+                        probabilityFill.style.width = `${percentage}%`;
+                        probabilityValue.textContent = `${percentage}%`;
+                        
+                        // Set probability bar color based on risk level
+                        if (percentage >= 70) {
+                            probabilityFill.className = 'probability-fill high-risk';
+                        } else if (percentage >= 30) {
+                            probabilityFill.className = 'probability-fill medium-risk';
+                        } else {
+                            probabilityFill.className = 'probability-fill low-risk';
+                        }
+                        
+                        // Create factors chart
+                        createFactorsChart();
+                        
+                        // Show result container
+                        resultContainer.style.display = 'block';
+                    } else {
+                        // Show error message
+                        errorMessage.textContent = data.message || 'An error occurred during prediction';
+                        errorMessage.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
+                    
+                    // Show error message
+                    errorMessage.textContent = 'Error: ' + error.message;
+                    errorMessage.style.display = 'block';
+                });
+            });
+            
+            // Handle reset button
+            resetBtn.addEventListener('click', function() {
+                predictionForm.reset();
+            });
+            
+            // Handle new prediction button
+            newPredictionBtn.addEventListener('click', function() {
+                resultContainer.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Create factors chart
+            function createFactorsChart() {
+                // Get the canvas element
+                const ctx = document.getElementById('factorsChart').getContext('2d');
+                
+                // Destroy existing chart if it exists
+                if (factorsChart) {
+                    factorsChart.destroy();
+                }
+                
+                // Sample data - in a real application, this would come from the API
+                const factors = [
+                    { name: 'Contract Type', impact: 0.35 },
+                    { name: 'Tenure', impact: -0.28 },
+                    { name: 'Monthly Charges', impact: 0.22 },
+                    { name: 'Internet Service', impact: 0.18 },
+                    { name: 'Payment Method', impact: 0.15 }
+                ];
+                
+                // Sort factors by absolute impact
+                factors.sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact));
+                
+                // Create chart data
+                const labels = factors.map(factor => factor.name);
+                const impacts = factors.map(factor => factor.impact);
+                const backgroundColors = impacts.map(impact => impact > 0 ? '#e74c3c' : '#2ecc71');
+                
+                // Create chart
+                factorsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Factor Impact',
+                            data: impacts,
+                            backgroundColor: backgroundColors,
+                            borderColor: backgroundColors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        return value > 0 ? 'Increases churn risk' : 'Decreases churn risk';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Impact on Churn (Negative = Reduces Risk, Positive = Increases Risk)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Auto-calculate total charges based on tenure and monthly charges
+            const tenureInput = document.getElementById('tenure');
+            const monthlyChargesInput = document.getElementById('MonthlyCharges');
+            const totalChargesInput = document.getElementById('TotalCharges');
+            
+            function updateTotalCharges() {
+                const tenure = parseFloat(tenureInput.value) || 0;
+                const monthlyCharges = parseFloat(monthlyChargesInput.value) || 0;
+                const totalCharges = tenure * monthlyCharges;
+                totalChargesInput.value = totalCharges.toFixed(2);
+            }
+            
+            tenureInput.addEventListener('input', updateTotalCharges);
+            monthlyChargesInput.addEventListener('input', updateTotalCharges);
+        });
+    </script>
+</body>
+</html>
