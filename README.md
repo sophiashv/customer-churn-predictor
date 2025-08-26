@@ -1,4 +1,4 @@
-# Customer Churn Prediction
+# Customer Churn Predictor
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3.0-orange.svg)
@@ -6,6 +6,14 @@
 ![Flask](https://img.shields.io/badge/Flask-2.3.2-red.svg)
 
 A complete machine learning project that predicts customer churn using advanced ML techniques. This project demonstrates a full ML workflow from data exploration to model deployment.
+
+![Churn Prediction Demo](https://github.com/sophiashv/customer-churn-predictor/raw/main/docs/images/churn_prediction_demo.png)
+
+## Quick Demo
+
+Try the live demo: [Customer Churn Predictor](https://example.com/churn-predictor)
+
+*Note: This project is part of a machine learning portfolio showcasing end-to-end ML development skills.*
 
 ## Project Overview
 
