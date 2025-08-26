@@ -7,6 +7,14 @@
 
 A complete machine learning project that predicts customer churn using advanced ML techniques. This project demonstrates a full ML workflow from data exploration to model deployment.
 
+![Churn Prediction Demo](https://github.com/sophiashv/project-X/raw/main/docs/images/churn_prediction_demo.png)
+
+## Quick Demo
+
+Try the live demo: [Customer Churn Predictor](https://example.com/churn-predictor)
+
+*Note: This project is part of a machine learning portfolio showcasing end-to-end ML development skills.*
+
 ## Project Overview
 
 Customer churn prediction is a critical business problem for subscription-based companies. This project builds a machine learning model to predict which customers are likely to churn, allowing businesses to take proactive retention measures.
