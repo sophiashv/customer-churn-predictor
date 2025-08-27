@@ -7,8 +7,6 @@
 
 A complete machine learning project that predicts customer churn using advanced ML techniques. This project demonstrates a full ML workflow from data exploration to model deployment.
 
-![Churn Prediction Demo](https://github.com/sophiashv/project-X/raw/main/docs/images/churn_prediction_demo.png)
-
 
 ## Project Overview
 
