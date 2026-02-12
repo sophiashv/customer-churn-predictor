@@ -7,6 +7,7 @@
 
 A complete machine learning project that predicts customer churn using advanced ML techniques. This project demonstrates a full ML workflow from data exploration to model deployment.
 
+
 ## Project Overview
 
 Customer churn prediction is a critical business problem for subscription-based companies. This project builds a machine learning model to predict which customers are likely to churn, allowing businesses to take proactive retention measures.
@@ -170,11 +171,3 @@ The XGBoost model achieves the following performance on the test set:
 - Add model explainability using SHAP values
 - Develop a more comprehensive dashboard for business users
 - Implement A/B testing for retention strategies
-
-## License
-
-[MIT License](LICENSE)
-
-## Contact
-
-For questions or feedback, please contact [your-email@example.com](mailto:your-email@example.com).
